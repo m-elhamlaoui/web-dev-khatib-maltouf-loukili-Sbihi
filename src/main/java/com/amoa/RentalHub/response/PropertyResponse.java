@@ -24,7 +24,6 @@ public class PropertyResponse {
     private List<BookingResponse> bookings;
     
 	public PropertyResponse(Long propertyId, String type, BigDecimal price) {
-		super();
 		this.propertyId = propertyId;
 		this.type = type;
 		this.price = price;
@@ -32,7 +31,6 @@ public class PropertyResponse {
 
 	public PropertyResponse(Long propertyId, int ownerId, String title, String type, String description, String address,
 			BigDecimal price, boolean isAvailable, byte[] photoBytes, List<BookingResponse> bookings) {
-		super();
 		this.propertyId = propertyId;
 		this.ownerId = ownerId;
 		this.title = title;
@@ -43,13 +41,7 @@ public class PropertyResponse {
 		this.isAvailable = isAvailable;
 		this.photo = photo != null ? Base64.encodeBase64String(photoBytes) : null;
 		this.bookings = bookings;
-	}
-    
-    
-    
-    
-    
-    
+	} 
 }
 
 
