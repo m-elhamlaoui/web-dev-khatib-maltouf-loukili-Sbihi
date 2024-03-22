@@ -27,7 +27,7 @@ export const routes = [
     element: <SignUp />,
   },
   {
-    name: "Product Page",
+    name: "Apartment Page(temporary)",
     path: "/productPage",
     element: <ProductPage />
   }
