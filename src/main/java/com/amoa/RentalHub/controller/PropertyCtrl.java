@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.amoa.RentalHub.model.Property;
 import com.amoa.RentalHub.model.User;
 import com.amoa.RentalHub.service.PropertyService;
+import com.amoa.RentalHub.service.UserService;
 
 
 @RestController
@@ -26,43 +27,68 @@ public class PropertyCtrl {
 
   @Autowired
   private PropertyService propertyService;
+  
+  @Autowired
+  private UserService userService;
 
   @PostMapping("/add-property")
-  public ResponseEntity<Property> saveProperty(@RequestBody Property property) {
-    Property savedProperty = propertyService.saveProperty(property);
+  public ResponseEntity<Property> saveProperty(@RequestBody Property property,
+                                               @RequestParam(value = "imageUrls", required = false) List<String> imageUrls,
+                                               @RequestParam(value = "featureIds", required = false) List<Long> featureIds) {
+
+    Property savedProperty = propertyService.saveProperty(property, imageUrls, featureIds);
     return ResponseEntity.ok(savedProperty);
   }
   
   @PutMapping("/update/{propertyId}")
-  public ResponseEntity<Property> updateProperty(@PathVariable Long propertyId, @RequestBody Property updatedProperty) {
+  public ResponseEntity<Property> updateProperty(@PathVariable Long propertyId,
+                                                  @RequestBody Property updatedProperty,
+                                                  @RequestParam(value = "imageUrls", required = false) List<String> imageUrls,
+                                                  @RequestParam(value = "featureIds", required = false) List<Long> featureIds) {
+
     Property existingProperty = propertyService.getPropertyById(propertyId);
     existingProperty.setDescription(updatedProperty.getDescription());
-	existingProperty.setPostalCode(updatedProperty.getPostalCode());
-	existingProperty.setRentPrice(updatedProperty.getRentPrice());
-	existingProperty.setStatus(updatedProperty.getStatus());
+    existingProperty.setRentPrice(updatedProperty.getRentPrice());
+    existingProperty.setImages(updatedProperty.getImages()); // Update images
+    existingProperty.setFeatures(updatedProperty.getFeatures()); // Update features
+
     Property updated = propertyService.saveProperty(existingProperty);
     return ResponseEntity.ok(updated);
   }
   
   @DeleteMapping("/delete/{propertyId}")
   public ResponseEntity<?> deleteProperty(@PathVariable Long propertyId) {
-    propertyService.deleteProperty(propertyId);
-    return ResponseEntity.noContent().build();
+	try {
+		  propertyService.deleteProperty(propertyId);
+		  return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+		  // Log the error and return an appropriate error response
+		  return ResponseEntity.badRequest().body("Error deleting property: " + e.getMessage());
+		}
   }
 
   @GetMapping("/owner/{ownerId}")
   public ResponseEntity<List<Property>> getPropertiesByOwner(@PathVariable Long ownerId) {
-    User owner = new User(); // Replace with logic to get user by id
-    List<Property> properties = propertyService.findAllPropertiesByOwner(owner);
-    return ResponseEntity.ok(properties);
+	  User owner = userService.getUserById(ownerId);  // Assuming a userService for fetching users
+	  if (owner == null) {
+	    return ResponseEntity.notFound().build();
+	  }
+	  List<Property> properties = propertyService.findAllPropertiesByOwner(owner);
+	  return ResponseEntity.ok(properties);
+  }
+  
+  @GetMapping("/all-properties")
+  public ResponseEntity<List<Property>> getAllProperties() {
+    List<Property> availableProperties = propertyService.getAllProperties();
+    return ResponseEntity.ok(availableProperties);
   }
 
-  @GetMapping("/available")
+  @GetMapping("/available-properties")
   public ResponseEntity<List<Property>> getAvailableProperties(
       @RequestParam(required = false) LocalDate date) {
-    LocalDate availabilityDate = LocalDate.now(); // Replace with logic for desired date
-    List<Property> availableProperties = propertyService.findAvailableProperties(availabilityDate);
-    return ResponseEntity.ok(availableProperties);
+	  LocalDate availabilityDate = date != null ? date : LocalDate.now();  // Use provided date or today
+	  List<Property> availableProperties = propertyService.findAvailableProperties(availabilityDate);
+	  return ResponseEntity.ok(availableProperties);
   }
 
   // Additional methods for property management functionalities (e.g., update, search)

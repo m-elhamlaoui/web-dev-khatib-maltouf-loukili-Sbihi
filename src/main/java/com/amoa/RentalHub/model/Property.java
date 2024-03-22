@@ -1,7 +1,6 @@
 package com.amoa.RentalHub.model;
 
 import java.math.BigDecimal;
-import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +9,16 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMin;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.apache.commons.lang3.RandomStringUtils; 
+
 
 @Entity
 
@@ -32,18 +28,9 @@ public class Property {
 	private Long propertyId;
 	@ManyToOne
 	private User owner;
+	private String title;
 	private String address;
-	private String city;
-	private String postalCode;
-	private String country;
 	
-	public enum Status {
-	    AVAILABLE,
-	    OCCUPIED
-	  }
-	
-	@Enumerated(EnumType.STRING)
-	private Status status;
 	
 	public enum PropertyType {
 	    APARTMENT,
@@ -60,6 +47,15 @@ public class Property {
 	@DecimalMin(value = "0.00")
 	private BigDecimal rentPrice;
 	private LocalDate availabilityDate;
+	
+	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+	  private List<Image> images = new ArrayList<>();
+	
+	@ManyToMany
+	  @JoinTable(name = "property_features",
+	      joinColumns = @JoinColumn(name = "property_id"),
+	      inverseJoinColumns = @JoinColumn(name = "feature_id"))
+	  private List<Feature> features = new ArrayList<>();
 	  
     
     
@@ -68,33 +64,28 @@ public class Property {
     
     
 
-    public Property(Long propertyId, User owner, String city, String country, PropertyType propertyType,
+    public Property(Long propertyId, User owner, String title, PropertyType propertyType,
 			@DecimalMin("0.00") BigDecimal rentPrice) {
 		super();
 		this.propertyId = propertyId;
 		this.owner = owner;
-		this.city = city;
-		this.country = country;
+		this.title = title;
 		this.propertyType = propertyType;
 		this.rentPrice = rentPrice;
 	}
 
 
 
-	public Property(User owner, String address, String city, Status status, String postalCode, String country,
+	public Property(User owner,String title, String address, 
                      PropertyType propertyType, String description, Integer bedrooms,
                      BigDecimal rentPrice, LocalDate availabilityDate) {
 		super();
       this.owner = owner;
+      this.title = title;
       this.address = address;
-      this.city = city;
-      this.status = status;
-      this.postalCode = postalCode;
-      this.country = country;
       this.propertyType = propertyType;
       this.description = description;
       this.bedrooms = bedrooms;
-     
       this.rentPrice = rentPrice;
       this.availabilityDate = availabilityDate;
     }
@@ -124,6 +115,17 @@ public class Property {
 	}
 
 
+	public String getTitle() {
+		return title;
+	}
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
 
 	public String getAddress() {
 		return address;
@@ -133,54 +135,6 @@ public class Property {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-
-
-	public String getCity() {
-		return city;
-	}
-
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-
-
-
-	public String getCountry() {
-		return country;
-	}
-
-
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-
-
-	public Status getStatus() {
-		return status;
-	}
-
-
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 
@@ -241,6 +195,30 @@ public class Property {
 
 	public void setAvailabilityDate(LocalDate availabilityDate) {
 		this.availabilityDate = availabilityDate;
+	}
+
+
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+
+
+	public List<Feature> getFeatures() {
+		return features;
+	}
+
+
+
+	public void setFeatures(List<Feature> features) {
+		this.features = features;
 	}
 	
 	

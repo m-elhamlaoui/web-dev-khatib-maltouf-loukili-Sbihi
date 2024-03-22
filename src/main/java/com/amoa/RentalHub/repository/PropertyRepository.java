@@ -14,4 +14,5 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, CrudR
 	List<Property> findAllByOwner(User owner);
 
 	List<Property> findByAvailabilityDateBefore(LocalDate date);
+	
 }

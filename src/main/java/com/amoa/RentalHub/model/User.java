@@ -1,6 +1,5 @@
 package com.amoa.RentalHub.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +22,6 @@ public class User {
   @Column(unique = true)
   private String email;
 
-  @JsonIgnore
   private String password; // Hash password before storing
 
   private String phoneNumber;
