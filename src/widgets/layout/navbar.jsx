@@ -70,16 +70,6 @@ export function Navbar({ brandName, routes, action }) {
             </Typography>
           </Link>
           <div className="hidden lg:block">{navList}</div>
-          <div className="hidden gap-2 lg:flex">
-            <a href="/sign-up" target="_blank">
-              <Button variant="text" size="sm" color="white" fullWidth>
-                Sign Up
-              </Button>
-            </a>
-            {React.cloneElement(action, {
-              className: "hidden lg:inline-block",
-            })}
-          </div>
           <IconButton
             variant="text"
             size="sm"
@@ -100,14 +90,9 @@ export function Navbar({ brandName, routes, action }) {
         >
           <div className="container mx-1">
             {navList}
-            <a href="/sign-up" target="_blank" className="mb-1 block">
-              <Button variant="text" size="sm" fullWidth>
-                Sign Up
-              </Button>
-            </a>
-            {React.cloneElement(action, {
-              className: "w-full block",
-            })}
+            {action && (
+              <div className="mt-4">{React.cloneElement(action)}</div>
+            )}
           </div>
         </MobileNav>
       </MTNavbar>
@@ -118,7 +103,7 @@ export function Navbar({ brandName, routes, action }) {
 Navbar.defaultProps = {
   brandName: "RentalHub",
   action: (
-    <a href="/sign-in" target="_blank">
+    <a href="/sign-in">
       <Button variant="gradient" size="sm" fullWidth>
         Sign In
       </Button>
