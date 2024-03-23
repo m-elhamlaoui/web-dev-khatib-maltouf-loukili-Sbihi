@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import Calendar from 'react-calendar';
+
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { CiStar } from "react-icons/ci";
 import { FaDotCircle } from "react-icons/fa";
 import { FaBed, FaPeopleGroup, FaShower } from "react-icons/fa6";
@@ -7,8 +8,10 @@ import { IoMdPin } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import ApartmentList from '../data/ApartmentList';
-import MyComponent from '../widgets/cards/googlemaps';
+import Popup from '../widgets/cards/Popup';
+import MyMap from '../widgets/cards/googlemaps';
+import MyCalendar from '../widgets/cards/reactcalendar';
+
 export function ProductPage() {
   const mockApartmentDetails = {
     id: 1,
@@ -23,8 +26,13 @@ export function ProductPage() {
     bathrooms: 1,
     features:['TV','WiFi','ascenseur','Sèche-Cheveux','Machine à laver','Frigo','Micro-onde',],
     lat: 35.61846778832157,
-    lng: -5.27324796877587
+    lng: -5.27324796877587,
+    dateRanges: [
+      { startDate: new Date(2024, 4, 15), endDate: new Date(2024, 4, 20) },//month 4 is may, day 20 is day 19 !!!!
+      { startDate: new Date(2024, 4, 23), endDate: new Date(2024, 4, 30) },
+    ]
   };
+  const [properties, setProperties] = useState([]);
   const [modalImage, setModalImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [fixed, setfixed] = useState(false);
@@ -32,6 +40,21 @@ export function ProductPage() {
     setModalImage(imageSrc);
   };
 
+  //
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  const fetchProperties = async () => {
+    try {
+      const response = await axios.get('http://localhost:9192/api/properties/all-properties');
+      setProperties(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching properties:', error);
+    }
+  };
+  //
   const closeModal = () => {
     setModalImage(null);
   };
@@ -58,6 +81,64 @@ export function ProductPage() {
       setfixed(false)
     }
   }
+///////Reservation Date Picker//////////
+
+
+    const [selectedStartDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [selectedEndDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupContent, setPopupContent] = useState('');
+
+
+
+  const handleReservation = () => {
+    // Check if the selected dates fall within any of the date ranges
+    const isValidSelection = selectedStartDate <= selectedEndDate;
+
+    if (isValidSelection) {
+      // Check if the selected dates fall within any of the date ranges
+      const isAvailable = mockApartmentDetails.dateRanges.every(range => {
+        const rangeStartDate = range.startDate.toISOString().split('T')[0];
+        const rangeEndDate = range.endDate.toISOString().split('T')[0];
+        const result = (
+          (selectedStartDate < rangeStartDate && selectedEndDate < rangeStartDate) ||
+          (selectedStartDate > rangeEndDate && selectedEndDate > rangeEndDate)
+        );
+  
+        console.log(`Range: ${rangeStartDate} to ${rangeEndDate}, Result: ${result}`);
+  
+        return result;
+      });
+  
+      if (isAvailable) {
+        setPopupContent('Reservation successful!');
+      } else {
+        setPopupContent('Selected dates are not available. Please consult the calendar down below and choose different dates.');
+      }
+    } else {
+      setPopupContent('Selected end date must be after the selected start date.');
+    }
+    //PopUp
+    setShowPopup(true);
+  };
+
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+///////////////////
+const [favouriteAdded, setfavouriteAdded] = useState(false);
+const handleFavourite = () => {
+
+  if(!favouriteAdded) {setfavouriteAdded(true);}
+  else setfavouriteAdded(false);
+};
+
+
+///////////////////
+
   return (
     <div style={{ backgroundColor: '#f3f4f6' }}>
       {/* Carousel */}
@@ -185,16 +266,19 @@ export function ProductPage() {
           </div>
           <div className="pt-10 pl-16">
           <h6 className="text-2xl font-bold pb-6 pt-10">Localisation</h6>
-          <MyComponent latitude={mockApartmentDetails.lat} longitude={mockApartmentDetails.lng} />
+          <MyMap latitude={mockApartmentDetails.lat} longitude={mockApartmentDetails.lng} />
           </div>
           <div className="pt-10 pl-16">
           <h6 className="text-2xl font-bold pb-6 pt-10">Disponibilité</h6>
-            <Calendar />
+          <div className="flex justify-center pb-11">
+            <MyCalendar dateRanges={mockApartmentDetails.dateRanges} />
+          </div>
           </div>
           <div>
-            <ApartmentList />
+            {}
           </div>
         </div>
+        <div>
         <div className={`w-160 bg-white p-8 rounded-md text-center mr-6  ${fixed? 'fixed top-0 right-10' : 'absolute top-10 right-10'}`}>
           <div className="bg-indigo-600 text-white rounded-md">
           <p className="">
@@ -205,17 +289,20 @@ export function ProductPage() {
           </div>
           <div className="mt-8 grid grid-cols-1 gap-2">
             <label htmlFor="start-date" className="text-gray-600">Date d'arrivée</label>
-            <input id="start-date" type="date" placeholder="Start date" className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" />
+            <input id="start-date" type="date" value={selectedStartDate} onChange={handleStartDateChange} placeholder="Start date" className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" />
             <label htmlFor="end-date" className="text-gray-600">Date de départ</label>
-            <input id="end-date" type="date" placeholder="End date" className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" />
+            <input id="end-date" type="date" value={selectedEndDate} onChange={handleEndDateChange} placeholder="End date" className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" />
           </div>
             <div className="mt-8 ">
-            <button className="mt-8 px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">Reserve</button>
-            <button className="flex mt-12 px-6 py-3 bg-white text-gray-700 border border-gray-700 rounded-md hover:bg-gray-700 hover:text-white focus:outline-none focus:bg-gray-700 focus:text-white">
-                <CiStar  className=" text-2xl" />
+            <button onClick={handleReservation}  className="mt-8 px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">Reserve</button>
+            <button onClick={handleFavourite} className="flex mt-12 px-6 py-3 bg-white text-gray-700 border border-gray-700 rounded-md hover:bg-gray-700 hover:text-white focus:outline-none focus:bg-gray-700 focus:text-white">
+            <CiStar style={{ color: favouriteAdded ? 'gold' : 'inherit' }} className="text-2xl" />
                 <p className=" px-5" style={{ whiteSpace: 'nowrap' }}>Ajoutez aux favouris</p>
             </button>
           </div>
+          </div>
+          {showPopup && <Popup content={popupContent} onClose={() => setShowPopup(false)} />}
+
         </div>
 
 

@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 
+
 export function Navbar({ brandName, routes }) {
   const [openNav, setOpenNav] = React.useState(false);
 
@@ -21,7 +22,7 @@ export function Navbar({ brandName, routes }) {
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      {routes.slice(0, 6).map(({ name, path, icon, href, target }, index) => (
+      {routes.slice(1, 7).map(({ name, path, icon, href, target }, index) => (
         <Typography
         key={name}
         as="li"
@@ -61,10 +62,10 @@ export function Navbar({ brandName, routes }) {
   );
 
   return (
-    <MTNavbar color="transparent" className="p-3">
-  <div className="container mx-auto flex items-center justify-between text-white">
+    <MTNavbar color="blue-gray">
+  <div className="container mx-auto flex items-center justify-between text-[#1b1f1e]">
     <Link to="/" className="mt-4">
-      <Typography className="w-full text-3xl font-bold text-[#e0fff5]">
+      <Typography className="w-full text-3xl font-bold text-[#1b1f1e]">
         {brandName}
       </Typography>
     </Link>
