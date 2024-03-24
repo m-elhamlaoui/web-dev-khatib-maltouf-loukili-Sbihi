@@ -10,11 +10,7 @@ export const routes = [
     path: "/home",
     element: <Home />,
   },
-  {
-    name: "profile",
-    path: "/profile",
-    element: <Profile />,
-  },
+  
   {
     name: "Contact Us",
     path: "/contact-us",
@@ -33,21 +29,13 @@ export const routes = [
     path: "/apartments",
     element: <Apartments />
   },
-  {
-    name: "Chatbot",
-    path: "/bookingchatbot",
-    element: <BookingChatbot />
-  },
+  
   {
     name: "Sign In",
     path: "/sign-in",
     element: <SignIn />,
 },
-{
-  name: "Apartment Page(temporary)",
-  path: "/productPage",
-  element: <ProductPage />
-},
+
   {
     name: "Sign Up",
     path: "/sign-up",
@@ -57,6 +45,11 @@ export const routes = [
     name: "Apartment Page(temporary)",
     path: "/productPage",
     element: <ProductPage />
+  },
+  {
+    name: "Chatbot",
+    path: "/bookingchatbot",
+    element: <BookingChatbot />
   },
 ];
 

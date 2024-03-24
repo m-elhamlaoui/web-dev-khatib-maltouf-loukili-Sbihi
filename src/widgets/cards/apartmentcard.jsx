@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Card, CardBody, CardHeader, Typography, Button } from "@material-tailwind/react";
+import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react";
+import { useState } from "react";
+import { Link } from 'react-router-dom';
 
 const ApartmentCard = ({ apartment }) => {
   const { name, description, address, price, images, id } = apartment;
@@ -14,16 +15,17 @@ const ApartmentCard = ({ apartment }) => {
   };
 
   return (
-    <a href="/productPage">
       <Card>
         <CardHeader>
           <div className="relative h-56">
-            <img
-              src={images[currentImageIndex]}
-              alt={name}
-              className="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300"
-              style={{ opacity: 1 }}
-            />
+          <Link to={`/productPage?apartment=${encodeURIComponent(JSON.stringify(id))}`}>
+              <img
+                src={images[currentImageIndex]}
+                alt={name}
+                className="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300"
+                style={{ opacity: 1 }}
+              />
+          </Link>
             {images.length > 1 && (
               <>
                 <button
@@ -49,10 +51,9 @@ const ApartmentCard = ({ apartment }) => {
           <Typography className="mb-2 font-normal text-blue-gray-500">{address}</Typography>
           <Typography className="mb-2 font-normal text-blue-gray-500">{description}</Typography>
           <Typography className="mb-4 font-bold">Prix par nuit: {price}DH</Typography>
-          <Button variant="filled">Voir plus</Button>
+          
         </CardBody>
       </Card>
-    </a>
   );
 };
 

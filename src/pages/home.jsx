@@ -1,15 +1,11 @@
 import React from "react";
 
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
-  Typography,
-  Button,
-  IconButton,
-  Input,
-  Textarea,
-  Checkbox,
+  Typography
 } from "@material-tailwind/react";
 import { FingerPrintIcon, ChatBubbleBottomCenterIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom"; 
@@ -22,51 +18,112 @@ import BookingChatbot from "@/pages/bookingchatbot";
 import ChatbotToggleButton from "./togglebutton";
 
 
-const mockApartmentDetails = [
+const mockApartmentList = [
   {
     id: 1,
-    name: 'Apartment A',
-    description: 'Situé au 5e étage d’un immeuble calme, cet appartement de 90 mètres carrés offre un espace de vie confortable. Le séjour et le salon sont baignés de lumière naturelle, offrant une vue agréable sur la cour intérieure. La cuisine équipée est idéale pour préparer vos repas, et la salle de bains dispose d’une douche et d’une baignoire. ',
-    address: 'Avenue Moulay Rachid, Martil, Morocco',
-    price: 700,
-    images: ['/img/aprt1.JPG','/img/aprt3.JPG'],
-    type: 'Appartement',
-    capacity: 4,
-    rooms: '2 Chambres (3 lits)',
-    bathrooms: 1,
-    features:['TV','WiFi','Ascenseur','Sèche-Cheveux','Machine à laver','Frigo','Micro-onde'],
-    lat: 35.61846778832157,
-    lng: -5.27324796877587
-  },
-  {
-    id: 1,
-    name: 'Apartment B',
-    description: 'Situé au 5e étage d’un immeuble calme, cet appartement de 90 mètres carrés offre un espace de vie confortable. Le séjour et le salon sont baignés de lumière naturelle, offrant une vue agréable sur la cour intérieure. La cuisine équipée est idéale pour préparer vos repas, et la salle de bains dispose d’une douche et d’une baignoire.',
+    name: 'Apartment A1',
+    description: 'Situé au 5e étage d’un immeuble calme, cet appartement de 90 mètres carrés offre un espace de vie confortable. Le séjour et le salon sont baignés de lumière naturelle, offrant une vue agréable sur la cour intérieure. La cuisine équipée est idéale pour préparer vos repas, et la salle de bains dispose d’une douche et d’une baignoire. Les deux chambres sont dotées de placards pour un rangement pratique.',
     address: 'Avenue Moulay Rachid, Martil, Morocco',
     price: 1000,
-    images: ['/img/aprt2.JPG','/img/aprt1.JPG'],
-    type: 'Appartement',
+    images: ['/img/img1.jpg', '/img/img2.jpg', '/img/img3.jpg', '/img/img4.jpg','/img/img5.jpg', '/img/img6.jpg', '/img/img7.jpg', '/img/img8.jpg','/img/img9.jpg', '/img/img10.jpg', '/img/img11.jpg', '/img/img12.jpg'],
+    type: 'Apartement',
     capacity: 4,
     rooms: '2 Chambres (3 lits)',
     bathrooms: 1,
-    features:['TV','WiFi','Ascenseur','Sèche-Cheveux','Machine à laver','Frigo','Micro-onde'],
+    features:['TV','WiFi','ascenseur','Sèche-Cheveux','Machine à laver','Frigo','Micro-onde','clima'],
     lat: 35.61846778832157,
-    lng: -5.27324796877587
-  },{
-    id: 1,
+    lng: -5.27324796877587,
+    dateRanges: [
+      { startDate: new Date(2024, 4, 15), endDate: new Date(2024, 4, 20) },
+      { startDate: new Date(2024, 4, 23), endDate: new Date(2024, 4, 30) },
+    ]
+  },
+  {
+    id: 2,
+    name: 'Apartment B',
+    description : "Niché au cœur du quartier historique, cet appartement de 75 mètres carrés vous offre un véritable havre de paix. Son ambiance chaleureuse et ses éléments architecturaux d'époque ajoutent du caractère à cet espace de vie. La cuisine moderne et entièrement équipée vous invite à concocter de délicieux repas, tandis que la chambre principale spacieuse vous promet des nuits paisibles. Profitez également de la terrasse ensoleillée pour des moments de détente.",
+    address: 'Address of Apartment B',
+    price: 1200,
+    images: [
+      '/img/img5-1.jpg',
+      '/img/img5-2.jpg',
+      '/img/img5-3.jpg',
+      '/img/img5-4.jpg',
+      '/img/img5-5.jpg',
+      '/img/img5-6.jpg',
+      '/img/img5-7.jpg',
+      '/img/img5-8.jpg'
+    ],
+    type: 'Apartement',
+    capacity: 3,
+    rooms: '1 Bedroom (2 beds)',
+    bathrooms: 1,
+    features: ['WiFi', 'Air Conditioning', 'Swimming Pool'],
+    lat: 35.61846778832157,
+    lng: -5.27324796877587,
+    dateRanges: [
+      { startDate: new Date(2024, 6, 1), endDate: new Date(2024, 6, 5) },
+      { startDate: new Date(2024, 7, 1), endDate: new Date(2024, 7, 5) },
+    ]
+  },
+  {
+    id: 3,
     name: 'Apartment C',
-    description: 'Situé au 5e étage d’un immeuble calme, cet appartement de 90 mètres carrés offre un espace de vie confortable. Le séjour et le salon sont baignés de lumière naturelle, offrant une vue agréable sur la cour intérieure. La cuisine équipée est idéale pour préparer vos repas, et la salle de bains dispose d’une douche et d’une baignoire.',
-    address: 'Avenue Moulay Rachid, Martil, Morocco',
-    price: 850,
-    images: ['/img/aprt3.JPG','/img/aprt1.JPG'],
-    type: 'Appartement',
-    capacity: 4,
-    rooms: '2 Chambres (3 lits)',
+    description : "Situé dans un quartier animé et branché, cet appartement de 80 mètres carrés incarne le style de vie urbain moderne. Ses grandes fenêtres laissent entrer la lumière naturelle, créant une atmosphère lumineuse et aérée. La cuisine ouverte sur le salon offre un espace convivial pour recevoir vos amis et votre famille. La chambre principale avec son dressing attenant vous offre un espace de rangement pratique, tandis que le balcon offre une vue imprenable sur la skyline de la ville.",
+    address: 'Address of Apartment C',
+    price: 900,
+    images: [
+      '/img/img3-1.jpg',
+      '/img/img3-2.jpg',
+      '/img/img3-3.jpg',
+      '/img/img3-4.jpg',
+      '/img/img3-5.jpg',
+      '/img/img3-6.jpg',
+      '/img/img3-7.jpg',
+      '/img/img3-8.jpg',
+      '/img/img3-9.jpg',
+      '/img/img3-10.jpg',
+      '/img/img3-11.jpg'
+    ],
+    type: 'Apartement',
+    capacity: 2,
+    rooms: '1 Bedroom (1 bed)',
     bathrooms: 1,
-    features:['TV','WiFi','Ascenseur','Sèche-Cheveux','Machine à laver','Frigo','Micro-onde'],
+    features: ['WiFi', 'Parking'],
     lat: 35.61846778832157,
-    lng: -5.27324796877587
-  },];
+    lng: -5.27324796877587,
+    dateRanges: [
+      { startDate: new Date(2024, 8, 10), endDate: new Date(2024, 8, 15) },
+      { startDate: new Date(2024, 8, 20), endDate: new Date(2024, 8, 25) },
+    ]
+  },
+  {
+    id: 4,
+    name: 'Apartment D',
+    description : "Cet appartemdnt de 65 mètres carrés, situé dans un quartier résidentiel paisible, est parfait pour ceux qui recherchent tranquillité et confort. La décoration moderne et épurée crée une ambiance apaisante dans chaque pièce. La cuisine entièrement équipée avec son îlot central est idéale pour les amateurs de cuisine, tandis que le salon spacieux offre un espace de détente confortable. La chambre lumineuse avec son bureau intégré est parfaite pour le télétravail ou la lecture relaxante.",
+    address: 'Address of Apartment D',
+    price: 1500,
+    images: [
+      '/img/img4-1.jpg',
+      '/img/img4-2.jpg',
+      '/img/img4-3.jpg',
+      '/img/img4-4.jpg',
+      '/img/img4-5.jpg',
+      '/img/img4-6.jpg'
+    ],
+    type: 'Apartement',
+    capacity: 5,
+    rooms: '2 Bedrooms (4 beds)',
+    bathrooms: 2, 
+    features: ['WiFi', 'Gym', 'Jacuzzi'],
+    lat: 35.61846778832157,
+    lng: -5.27324796877587,
+    dateRanges: [
+      { startDate: new Date(2024, 9, 5), endDate: new Date(2024, 9, 10) },
+      { startDate: new Date(2024, 9, 15), endDate: new Date(2024, 9, 20) },
+    ]
+  },
+];
 
 
 export function Home() {
@@ -109,16 +166,22 @@ export function Home() {
               />
             ))}
           </div>
-          <section className="bg-gray-100 py-12">
+          <section className="bg-gray-100 pt-12 pb-5 rounded-xl">
         <div className="container mx-auto">
           <PageTitle title="Appartements disponibles" />
           <div className="flex flex-wrap justify-center">
-            {mockApartmentDetails.slice(0, 3).map((apartment) => (
+            {mockApartmentList.slice(0, 3).map((apartment) => (
               <div key={apartment.id} className="w-full md:w-1/3 p-4">
                 <ApartmentCard apartment={apartment} />
               </div>
+
             ))}
           </div>
+          <a href="/apartments">
+            <div className="ml-5 ">
+              <Button variant="filled">Voir plus</Button>
+            </div>
+          </a>
         </div>
       </section>
           <div className="mt-32 flex flex-wrap items-center">
@@ -139,7 +202,7 @@ export function Home() {
                 <br />
                 La propriété elle-même était impeccablement propre et bien entretenue, et l'emplacement était parfait pour explorer la région. Je recommande vivement cette agence à tous ceux qui recherchent des locations de vacances de qualité!"
               </Typography>
-              <Button variant="filled">Lire plus</Button>
+              
             </div>
             <div className="mx-auto mt-24 flex w-full justify-center px-4 md:w-4/12 lg:mt-0">
               <Card className="shadow-lg border shadow-gray-500/10 rounded-lg">
@@ -208,7 +271,7 @@ export function Home() {
                 <br />
                 De plus, l'emplacement était idéal, à proximité des attractions touristiques et des transports en commun."
               </Typography>
-              <Button variant="filled">Lire plus</Button>
+              
             </div>
             </div>
           </div>

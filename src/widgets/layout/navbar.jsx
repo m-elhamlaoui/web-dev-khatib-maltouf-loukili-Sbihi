@@ -15,14 +15,14 @@ export function Navbar({ brandName, routes }) {
   }, []);
 
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 pr-10">
       {routes.slice(1, 6).map(({ name, path, icon, href, target }, index) => (
         <Typography
           key={name}
           as="li"
           variant="medium"
           color="inherit"
-          className={`capitalize ${index === 3 ? 'ml-4 lg:ml-8' : ''}`}
+          className={`mr-5 capitalize ${index === 4 ? 'ml-8 lg:ml-10' : ''}`}
           style={{ fontSize: '0.9rem', fontFamily: "Lucida Sans" }}
         >
           {href ? (
