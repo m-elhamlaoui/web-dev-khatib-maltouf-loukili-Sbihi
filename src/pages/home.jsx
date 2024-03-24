@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Card,
   CardBody,
@@ -11,12 +12,15 @@ import {
   Checkbox,
 } from "@material-tailwind/react";
 import { FingerPrintIcon, ChatBubbleBottomCenterIcon } from "@heroicons/react/24/solid";
-
+import { Link } from "react-router-dom"; 
 import { PageTitle, Footer} from "@/widgets/layout";
 import { FeatureCard,TeamCard } from "@/widgets/cards";
 import { featuresData, teamData, contactData } from "@/data";
 import BookingBar from "@/widgets/layout/bookingBar";
 import ApartmentCard from "@/widgets/cards/apartmentcard";
+import BookingChatbot from "@/pages/bookingchatbot";
+import ChatbotToggleButton from "./togglebutton";
+
 
 const mockApartmentDetails = [
   {
@@ -210,8 +214,11 @@ export function Home() {
           </div>
         </div>
       </section>
-     
       
+      
+      <div >
+      <ChatbotToggleButton  />
+      </div>
       <div className="bg-white">
         <Footer />
       </div>

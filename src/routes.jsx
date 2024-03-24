@@ -1,6 +1,7 @@
 
 
 import { AboutUs, ContactUs,Apartments, Home, ProductPage, Profile, SignIn, SignUp } from "@/pages";
+import BookingChatbot from "@/pages/bookingchatbot";
 
 
 export const routes = [
@@ -31,6 +32,11 @@ export const routes = [
     name: "Apartments",
     path: "/apartments",
     element: <Apartments />
+  },
+  {
+    name: "Chatbot",
+    path: "/bookingchatbot",
+    element: <BookingChatbot />
   },
   {
     name: "Sign In",
