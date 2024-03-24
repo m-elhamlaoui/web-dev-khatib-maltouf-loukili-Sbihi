@@ -1,6 +1,5 @@
 package com.amoa.RentalHub.service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.amoa.RentalHub.model.Booking;
 import com.amoa.RentalHub.model.Feature;
 import com.amoa.RentalHub.model.Image;
 import com.amoa.RentalHub.model.Property;
@@ -26,14 +24,12 @@ public class PropertyService {
   private final PropertyRepository propertyRepository;
   private final ImageRepository imageRepository;
   private final FeatureRepository featureRepository;
-  private final BookingRepository bookingRepository;
   
   @Autowired
   public PropertyService(PropertyRepository propertyRepository, ImageRepository imageRepository, FeatureRepository featureRepository, BookingRepository bookingRepository) {
       this.propertyRepository = propertyRepository;
       this.imageRepository = imageRepository;
       this.featureRepository = featureRepository;
-      this.bookingRepository = bookingRepository;
   }
 
   public Property getPropertyById(Long id) {
@@ -80,7 +76,6 @@ public class PropertyService {
           existingProperty.setAddress(updatedProperty.getAddress());
           existingProperty.setDescription(updatedProperty.getDescription());
           existingProperty.setRentPrice(updatedProperty.getRentPrice());
-          existingProperty.setAvailabilityDate(updatedProperty.getAvailabilityDate());
 
           // Update associated images
           if (imageIds != null && !imageIds.isEmpty()) {
@@ -113,10 +108,6 @@ public class PropertyService {
       return propertyRepository.findAll();
   }
 
-  public List<Property> findAvailableProperties(LocalDate date) {
-    return propertyRepository.findByAvailabilityDateBefore(date);
-  }
-  
 
 
   // Additional methods for property management functionalities (e.g., update, delete)

@@ -19,8 +19,6 @@ public class BookingService {
 
   @Autowired
   private BookingRepository bookingRepository;
-  @Autowired
-  private PropertyService propertyService; // Assuming a PropertyService exists
 
   public Booking createBooking(User user, Property property, LocalDate startDate, LocalDate endDate, BigDecimal totalPrice) throws PropertyNotFoundException {
 
@@ -34,8 +32,6 @@ public class BookingService {
     booking.setTotalPrice(totalPrice);
     booking.setStatus(BookingStatus.PENDING); // Initial booking status
     Booking savedBooking = bookingRepository.save(booking);
-
-    // Send confirmation emails or notifications (optional)
 
     return savedBooking;
   }

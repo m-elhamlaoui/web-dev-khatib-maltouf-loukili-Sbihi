@@ -1,6 +1,5 @@
 package com.amoa.RentalHub.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,14 +89,6 @@ public class PropertyCtrl {
   public ResponseEntity<List<Property>> getAllProperties() {
     List<Property> availableProperties = propertyService.getAllProperties();
     return ResponseEntity.ok(availableProperties);
-  }
-
-  @GetMapping("/available-properties")
-  public ResponseEntity<List<Property>> getAvailableProperties(
-      @RequestParam(required = false) LocalDate date) {
-	  LocalDate availabilityDate = date != null ? date : LocalDate.now();  // Use provided date or today
-	  List<Property> availableProperties = propertyService.findAvailableProperties(availabilityDate);
-	  return ResponseEntity.ok(availableProperties);
   }
 
   // Additional methods for property management functionalities (e.g., update, search)

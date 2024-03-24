@@ -1,7 +1,6 @@
 package com.amoa.RentalHub.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +44,12 @@ public class Property {
 	
 	private String description;
 	private Integer bedrooms;
+	private Double latitude;
+	private Double longitude;
+	private Integer capacity;
+	private Integer bathroom;
 	@DecimalMin(value = "0.00")
 	private BigDecimal rentPrice;
-	private LocalDate availabilityDate;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "property_id", referencedColumnName = "propertyId")
@@ -78,19 +80,27 @@ public class Property {
 
 
 
-	public Property(User owner,String title, String address, 
-                     PropertyType propertyType, String description, Integer bedrooms,
-                     BigDecimal rentPrice, LocalDate availabilityDate) {
+
+
+	public Property(Long propertyId, User owner, String title, String address, PropertyType propertyType,
+			String description, Integer bedrooms, Double latitude, Double longitude, Integer capacity, Integer bathroom,
+			@DecimalMin("0.00") BigDecimal rentPrice, List<Image> images, List<Feature> features) {
 		super();
-      this.owner = owner;
-      this.title = title;
-      this.address = address;
-      this.propertyType = propertyType;
-      this.description = description;
-      this.bedrooms = bedrooms;
-      this.rentPrice = rentPrice;
-      this.availabilityDate = availabilityDate;
-    }
+		this.propertyId = propertyId;
+		this.owner = owner;
+		this.title = title;
+		this.address = address;
+		this.propertyType = propertyType;
+		this.description = description;
+		this.bedrooms = bedrooms;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.capacity = capacity;
+		this.bathroom = bathroom;
+		this.rentPrice = rentPrice;
+		this.images = images;
+		this.features = features;
+	}
 
 
 
@@ -188,19 +198,6 @@ public class Property {
 	}
 
 
-
-	public LocalDate getAvailabilityDate() {
-		return availabilityDate;
-	}
-
-
-
-	public void setAvailabilityDate(LocalDate availabilityDate) {
-		this.availabilityDate = availabilityDate;
-	}
-
-
-
 	public List<Image> getImages() {
 		return images;
 	}
@@ -222,23 +219,57 @@ public class Property {
 	public void setFeatures(List<Feature> features) {
 		this.features = features;
 	}
+
+
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+
+
+	public Integer getCapacity() {
+		return capacity;
+	}
+
+
+
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
+
+
+
+	public Integer getBathroom() {
+		return bathroom;
+	}
+
+
+
+	public void setBathroom(Integer bathroom) {
+		this.bathroom = bathroom;
+	}
 	
 	
-
-
-
-//	public void addBooking(BookedProperty booking) {
-//    	if(bookings == null) {
-//    		bookings = new ArrayList<>();
-//    	}
-//    	bookings.add(booking);
-//    	booking.setProperty(this);
-//    	isAvailable = true;
-//    	String bookingCode = RandomStringUtils.randomNumeric(10);
-//    	booking.setBookingConfirmationCode(bookingCode);
-//    }
 }
-
 
 
 
