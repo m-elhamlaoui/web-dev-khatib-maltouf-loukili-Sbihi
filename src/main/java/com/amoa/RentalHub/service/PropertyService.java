@@ -8,10 +8,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amoa.RentalHub.model.Booking;
 import com.amoa.RentalHub.model.Feature;
 import com.amoa.RentalHub.model.Image;
 import com.amoa.RentalHub.model.Property;
 import com.amoa.RentalHub.model.User;
+import com.amoa.RentalHub.repository.BookingRepository;
 import com.amoa.RentalHub.repository.FeatureRepository;
 import com.amoa.RentalHub.repository.ImageRepository;
 import com.amoa.RentalHub.repository.PropertyRepository;
@@ -21,66 +23,83 @@ import jakarta.transaction.Transactional;
 @Service
 public class PropertyService {
 
-  @Autowired
-  private PropertyRepository propertyRepository;
+  private final PropertyRepository propertyRepository;
+  private final ImageRepository imageRepository;
+  private final FeatureRepository featureRepository;
+  private final BookingRepository bookingRepository;
   
   @Autowired
-  private ImageRepository imageRepository;
-
-  @Autowired
-  private FeatureRepository featureRepository;
+  public PropertyService(PropertyRepository propertyRepository, ImageRepository imageRepository, FeatureRepository featureRepository, BookingRepository bookingRepository) {
+      this.propertyRepository = propertyRepository;
+      this.imageRepository = imageRepository;
+      this.featureRepository = featureRepository;
+      this.bookingRepository = bookingRepository;
+  }
 
   public Property getPropertyById(Long id) {
-      Optional<Property> propertyOptional = propertyRepository.findById(id);
       return propertyRepository.findById(id).orElse(null);
   }
   
   @Transactional
   public Property saveProperty(Property property, List<String> imageUrls, List<Long> featureIds) {
-	  if (imageUrls == null) {
-	        // Handle null parameters appropriately, throw an exception or return null
-		imageUrls = new ArrayList<>();  
-	  }
-	  if (featureIds == null) {
-	        // Handle null parameters appropriately, throw an exception or return null
-		featureIds = new ArrayList<>();  
-	  }
-	  property.setImages(new ArrayList<>());
-	  Property savedProperty = propertyRepository.save(property);
-	// Save images
-      List<Image> images = new ArrayList<>();
+	    // Save property first
+	    Property savedProperty = propertyRepository.save(property);
+
+	    if(imageUrls == null) {
+	    	imageUrls = new ArrayList<>();
+	    }
+	    // Save images
 	    for (String imageUrl : imageUrls) {
 	      Image image = new Image();
 	      image.setImageUrl(imageUrl);
-	      image.setProperty(savedProperty); // Set property reference
 	      imageRepository.save(image);
-	      images.add(image);
+	      savedProperty.getImages().add(image);
 	    }
-        savedProperty.setImages(images);
 
-	    
-	 // Associate features
-        List<Feature> features = new ArrayList<>();
-	    for (Long featureId : featureIds) {
-	    	Optional<Feature> featureOptional = featureRepository.findById(featureId);
-            featureOptional.ifPresent(features::add);
+
+	    if (featureIds != null && !featureIds.isEmpty()) {
+	        List<Feature> features = featureRepository.findAllById(featureIds);
+	        savedProperty.setFeatures(features);
 	    }
-        savedProperty.setFeatures(features);
 
-	  return savedProperty;
-  }
+	    return propertyRepository.save(savedProperty);
+	  }
   
   public Property saveProperty(Property property) {
 	  return propertyRepository.save(property);
   }
   
-  public Property updateProperty(Property property) {
-	  
-	  property.setDescription(property.getDescription());
-	  property.setRentPrice(property.getRentPrice());
-	  return propertyRepository.save(property);
-	}
-  
+  @Transactional
+  public Property updateProperty(Long propertyId, Property updatedProperty, List<Long> imageIds, List<Long> featureIds) {
+      Optional<Property> optionalProperty = propertyRepository.findById(propertyId);
+      if (optionalProperty.isPresent()) {
+          Property existingProperty = optionalProperty.get();
+
+          // Update property details
+          existingProperty.setTitle(updatedProperty.getTitle());
+          existingProperty.setAddress(updatedProperty.getAddress());
+          existingProperty.setDescription(updatedProperty.getDescription());
+          existingProperty.setRentPrice(updatedProperty.getRentPrice());
+          existingProperty.setAvailabilityDate(updatedProperty.getAvailabilityDate());
+
+          // Update associated images
+          if (imageIds != null && !imageIds.isEmpty()) {
+              List<Image> images = imageRepository.findAllById(imageIds);
+              existingProperty.setImages(images);
+          }
+
+          // Update associated features
+          if (featureIds != null && !featureIds.isEmpty()) {
+              List<Feature> features = featureRepository.findAllById(featureIds);
+              existingProperty.setFeatures(features);
+          }
+
+          // Save the updated property to the database
+          return propertyRepository.save(existingProperty);
+      } else {
+          return null;
+      }
+  }
   public void deleteProperty(Long propertyId) {
 	  propertyRepository.deleteById(propertyId);
 	}
@@ -89,6 +108,7 @@ public class PropertyService {
     return propertyRepository.findAllByOwner(owner);
   }
   
+  
   public List<Property> getAllProperties() {
       return propertyRepository.findAll();
   }
@@ -96,6 +116,8 @@ public class PropertyService {
   public List<Property> findAvailableProperties(LocalDate date) {
     return propertyRepository.findByAvailabilityDateBefore(date);
   }
+  
+
 
   // Additional methods for property management functionalities (e.g., update, delete)
 }

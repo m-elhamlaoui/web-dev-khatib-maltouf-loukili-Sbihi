@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,36 +26,38 @@ import com.amoa.RentalHub.service.UserService;
 @RequestMapping("/api/properties")
 public class PropertyCtrl {
 
-  @Autowired
-  private PropertyService propertyService;
+  private final PropertyService propertyService;
+  private final UserService userService;
   
   @Autowired
-  private UserService userService;
+  public PropertyCtrl(PropertyService propertyService, UserService userService) {
+      this.propertyService = propertyService;
+      this.userService = userService;
+  }
 
   @PostMapping("/add-property")
   public ResponseEntity<Property> saveProperty(@RequestBody Property property,
-                                               @RequestParam(value = "imageUrls", required = false) List<String> imageUrls,
-                                               @RequestParam(value = "featureIds", required = false) List<Long> featureIds) {
+          @RequestParam(value = "imageUrls", required = false) List<String> imageUrls,
+          @RequestParam(value = "featureIds", required = false) List<Long> featureIds) {
 
-    Property savedProperty = propertyService.saveProperty(property, imageUrls, featureIds);
-    return ResponseEntity.ok(savedProperty);
-  }
+	  Property savedProperty = propertyService.saveProperty(property, imageUrls, featureIds);
+
+      return new ResponseEntity<>(savedProperty, HttpStatus.CREATED);
+	}
   
   @PutMapping("/update/{propertyId}")
   public ResponseEntity<Property> updateProperty(@PathVariable Long propertyId,
                                                   @RequestBody Property updatedProperty,
-                                                  @RequestParam(value = "imageUrls", required = false) List<String> imageUrls,
+                                                  @RequestParam(value = "imageIds", required = false) List<Long> imageIds,
                                                   @RequestParam(value = "featureIds", required = false) List<Long> featureIds) {
 
-    Property existingProperty = propertyService.getPropertyById(propertyId);
-    existingProperty.setDescription(updatedProperty.getDescription());
-    existingProperty.setRentPrice(updatedProperty.getRentPrice());
-    existingProperty.setImages(updatedProperty.getImages()); // Update images
-    existingProperty.setFeatures(updatedProperty.getFeatures()); // Update features
-
-    Property updated = propertyService.saveProperty(existingProperty);
-    return ResponseEntity.ok(updated);
-  }
+    Property updated = propertyService.updateProperty(propertyId, updatedProperty, imageIds, featureIds);
+    if (updated != null) {
+        return ResponseEntity.ok(updated);
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }  
+    }
   
   @DeleteMapping("/delete/{propertyId}")
   public ResponseEntity<?> deleteProperty(@PathVariable Long propertyId) {
@@ -75,6 +78,12 @@ public class PropertyCtrl {
 	  }
 	  List<Property> properties = propertyService.findAllPropertiesByOwner(owner);
 	  return ResponseEntity.ok(properties);
+  }
+  
+  @GetMapping("/{propertyId}")
+  public ResponseEntity<Property> getPropertyById(@PathVariable Long propertyId) {
+	  Property property = propertyService.getPropertyById(propertyId);
+	  return ResponseEntity.ok(property);
   }
   
   @GetMapping("/all-properties")

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -48,7 +49,8 @@ public class Property {
 	private BigDecimal rentPrice;
 	private LocalDate availabilityDate;
 	
-	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "property_id", referencedColumnName = "propertyId")
 	  private List<Image> images = new ArrayList<>();
 	
 	@ManyToMany

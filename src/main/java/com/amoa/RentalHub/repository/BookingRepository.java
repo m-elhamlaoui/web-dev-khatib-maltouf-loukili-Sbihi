@@ -3,8 +3,9 @@ package com.amoa.RentalHub.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.amoa.RentalHub.model.Feature;
+import com.amoa.RentalHub.model.Booking;
 
 @Repository
-public interface FeatureRepository extends JpaRepository<Feature, Long> {
+public interface BookingRepository extends JpaRepository<Booking, Long> {
+
 }
