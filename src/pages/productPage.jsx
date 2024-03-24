@@ -22,111 +22,111 @@ export function ProductPage() {
     console.log('apartment id' + apartmentId)
 
     const mockApartmentList = [
-    {
-      id: 1,
-      name: 'Apartment A',
-      description: 'Situé au 5e étage d’un immeuble calme, cet appartement de 90 mètres carrés offre un espace de vie confortable. Le séjour et le salon sont baignés de lumière naturelle, offrant une vue agréable sur la cour intérieure. La cuisine équipée est idéale pour préparer vos repas, et la salle de bains dispose d’une douche et d’une baignoire. Les deux chambres sont dotées de placards pour un rangement pratique.',
-      address: 'Avenue Moulay Rachid, Martil, Morocco',
-      price: 1000,
-      images: ['/img/img1.jpg', '/img/img2.jpg', '/img/img3.jpg', '/img/img4.jpg','/img/img5.jpg', '/img/img6.jpg', '/img/img7.jpg', '/img/img8.jpg','/img/img9.jpg', '/img/img10.jpg', '/img/img11.jpg', '/img/img12.jpg'],
-      type: 'Apartement',
-      capacity: 4,
-      rooms: '2 Chambres (3 lits)',
-      bathrooms: 1,
-      features:['TV','WiFi','ascenseur','Sèche-Cheveux','Machine à laver','Frigo','Micro-onde',],
-      lat: 35.61846778832157,
-      lng: -5.27324796877587,
-      dateRanges: [
-        { startDate: new Date(2024, 3, 15), endDate: new Date(2024, 3, 20) },
-        { startDate: new Date(2024, 3, 23), endDate: new Date(2024, 3, 30) },
-      ]
-    },
-    {
-      id: 2,
-      name: 'Apartment B',
-      description: 'Description of Apartment B',
-      address: 'Address of Apartment B',
-      price: 1200,
-      images: [
-        '/img/img5-1.jpg',
-        '/img/img5-2.jpg',
-        '/img/img5-3.jpg',
-        '/img/img5-4.jpg',
-        '/img/img5-5.jpg',
-        '/img/img5-6.jpg',
-        '/img/img5-7.jpg',
-        '/img/img5-8.jpg'
-      ],
-      type: 'Apartement',
-      capacity: 3,
-      rooms: '1 Bedroom (2 beds)',
-      bathrooms: 1,
-      features: ['WiFi', 'Air Conditioning', 'Swimming Pool'],
-      lat: 35.61846778832157,
-      lng: -5.27324796877587,
-      dateRanges: [
-        { startDate: new Date(2024, 3, 1), endDate: new Date(2024, 3, 5) },
-        { startDate: new Date(2024, 4, 1), endDate: new Date(2024, 4, 5) },
-      ]
-    },
-    {
-      id: 3,
-      name: 'Apartment C',
-      description: 'Description of Apartment C',
-      address: 'Address of Apartment C',
-      price: 900,
-      images: [
-        '/img/img3-1.jpg',
-        '/img/img3-2.jpg',
-        '/img/img3-3.jpg',
-        '/img/img3-4.jpg',
-        '/img/img3-5.jpg',
-        '/img/img3-6.jpg',
-        '/img/img3-7.jpg',
-        '/img/img3-8.jpg',
-        '/img/img3-9.jpg',
-        '/img/img3-10.jpg',
-        '/img/img3-11.jpg'
-      ],
-      type: 'Apartement',
-      capacity: 2,
-      rooms: '1 Bedroom (1 bed)',
-      bathrooms: 1,
-      features: ['WiFi', 'Parking'],
-      lat: 35.61846778832157,
-      lng: -5.27324796877587,
-      dateRanges: [
-        { startDate: new Date(2024, 3, 10), endDate: new Date(2024, 3, 15) },
-        { startDate: new Date(2024, 4, 20), endDate: new Date(2024, 4, 25) },
-      ]
-    },
-    {
-      id: 4,
-      name: 'Apartment D',
-      description: 'Description of Apartment D',
-      address: 'Address of Apartment D',
-      price: 1500,
-      images: [
-        '/img/img4-1.jpg',
-        '/img/img4-2.jpg',
-        '/img/img4-3.jpg',
-        '/img/img4-4.jpg',
-        '/img/img4-5.jpg',
-        '/img/img4-6.jpg'
-      ],
-      type: 'Apartement',
-      capacity: 5,
-      rooms: '2 Bedrooms (4 beds)',
-      bathrooms: 2,
-      features: ['WiFi', 'Gym', 'Jacuzzi'],
-      lat: 35.61846778832157,
-      lng: -5.27324796877587,
-      dateRanges: [
-        { startDate: new Date(2024, 3, 5), endDate: new Date(2024, 3, 10) },
-        { startDate: new Date(2024, 4, 15), endDate: new Date(2024, 4, 20) },
-      ]
-    },
-  ];
+      {
+        id: 1,
+        name: 'Apartment A1',
+        description: 'Situé au 5e étage d’un immeuble calme, cet appartement de 90 mètres carrés offre un espace de vie confortable. Le séjour et le salon sont baignés de lumière naturelle, offrant une vue agréable sur la cour intérieure. La cuisine équipée est idéale pour préparer vos repas, et la salle de bains dispose d’une douche et d’une baignoire. Les deux chambres sont dotées de placards pour un rangement pratique.',
+        address: 'Avenue Moulay Rachid, Martil, Morocco',
+        price: 1000,
+        images: ['/img/img1.jpg', '/img/img2.jpg', '/img/img3.jpg', '/img/img4.jpg','/img/img5.jpg', '/img/img6.jpg', '/img/img7.jpg', '/img/img8.jpg','/img/img9.jpg', '/img/img10.jpg', '/img/img11.jpg', '/img/img12.jpg'],
+        type: 'Apartement',
+        capacity: 4,
+        rooms: '2 Chambres (3 lits)',
+        bathrooms: 1,
+        features:['TV','WiFi','ascenseur','Sèche-Cheveux','Machine à laver','Frigo','Micro-onde','clima'],
+        lat: 35.61846778832157,
+        lng: -5.27324796877587,
+        dateRanges: [
+          { startDate: new Date(2024, 4, 15), endDate: new Date(2024, 4, 20) },
+          { startDate: new Date(2024, 4, 23), endDate: new Date(2024, 4, 30) },
+        ]
+      },
+      {
+        id: 2,
+        name: 'Apartment B',
+        description : "Niché au cœur du quartier historique, cet appartement de 75 mètres carrés vous offre un véritable havre de paix. Son ambiance chaleureuse et ses éléments architecturaux d'époque ajoutent du caractère à cet espace de vie. La cuisine moderne et entièrement équipée vous invite à concocter de délicieux repas, tandis que la chambre principale spacieuse vous promet des nuits paisibles. Profitez également de la terrasse ensoleillée pour des moments de détente.",
+        address: 'Address of Apartment B',
+        price: 1200,
+        images: [
+          '/img/img5-1.jpg',
+          '/img/img5-2.jpg',
+          '/img/img5-3.jpg',
+          '/img/img5-4.jpg',
+          '/img/img5-5.jpg',
+          '/img/img5-6.jpg',
+          '/img/img5-7.jpg',
+          '/img/img5-8.jpg'
+        ],
+        type: 'Apartement',
+        capacity: 3,
+        rooms: '1 Bedroom (2 beds)',
+        bathrooms: 1,
+        features: ['WiFi', 'Air Conditioning', 'Swimming Pool'],
+        lat: 35.61846778832157,
+        lng: -5.27324796877587,
+        dateRanges: [
+          { startDate: new Date(2024, 6, 1), endDate: new Date(2024, 6, 5) },
+          { startDate: new Date(2024, 7, 1), endDate: new Date(2024, 7, 5) },
+        ]
+      },
+      {
+        id: 3,
+        name: 'Apartment C',
+        description : "Situé dans un quartier animé et branché, cet appartement de 80 mètres carrés incarne le style de vie urbain moderne. Ses grandes fenêtres laissent entrer la lumière naturelle, créant une atmosphère lumineuse et aérée. La cuisine ouverte sur le salon offre un espace convivial pour recevoir vos amis et votre famille. La chambre principale avec son dressing attenant vous offre un espace de rangement pratique, tandis que le balcon offre une vue imprenable sur la skyline de la ville.",
+        address: 'Address of Apartment C',
+        price: 900,
+        images: [
+          '/img/img3-1.jpg',
+          '/img/img3-2.jpg',
+          '/img/img3-3.jpg',
+          '/img/img3-4.jpg',
+          '/img/img3-5.jpg',
+          '/img/img3-6.jpg',
+          '/img/img3-7.jpg',
+          '/img/img3-8.jpg',
+          '/img/img3-9.jpg',
+          '/img/img3-10.jpg',
+          '/img/img3-11.jpg'
+        ],
+        type: 'Apartement',
+        capacity: 2,
+        rooms: '1 Bedroom (1 bed)',
+        bathrooms: 1,
+        features: ['WiFi', 'Parking'],
+        lat: 35.61846778832157,
+        lng: -5.27324796877587,
+        dateRanges: [
+          { startDate: new Date(2024, 8, 10), endDate: new Date(2024, 8, 15) },
+          { startDate: new Date(2024, 8, 20), endDate: new Date(2024, 8, 25) },
+        ]
+      },
+      {
+        id: 4,
+        name: 'Apartment D',
+        description : "Cet appartemdnt de 65 mètres carrés, situé dans un quartier résidentiel paisible, est parfait pour ceux qui recherchent tranquillité et confort. La décoration moderne et épurée crée une ambiance apaisante dans chaque pièce. La cuisine entièrement équipée avec son îlot central est idéale pour les amateurs de cuisine, tandis que le salon spacieux offre un espace de détente confortable. La chambre lumineuse avec son bureau intégré est parfaite pour le télétravail ou la lecture relaxante.",
+        address: 'Address of Apartment D',
+        price: 1500,
+        images: [
+          '/img/img4-1.jpg',
+          '/img/img4-2.jpg',
+          '/img/img4-3.jpg',
+          '/img/img4-4.jpg',
+          '/img/img4-5.jpg',
+          '/img/img4-6.jpg'
+        ],
+        type: 'Apartement',
+        capacity: 5,
+        rooms: '2 Bedrooms (4 beds)',
+        bathrooms: 2, 
+        features: ['WiFi', 'Gym', 'Jacuzzi'],
+        lat: 35.61846778832157,
+        lng: -5.27324796877587,
+        dateRanges: [
+          { startDate: new Date(2024, 9, 5), endDate: new Date(2024, 9, 10) },
+          { startDate: new Date(2024, 9, 15), endDate: new Date(2024, 9, 20) },
+        ]
+      },
+    ];
 
 
   const [properties, setProperties] = useState([]);
