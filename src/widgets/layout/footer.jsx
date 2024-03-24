@@ -1,11 +1,11 @@
-import { IconButton, Typography } from "@material-tailwind/react";
 import PropTypes from "prop-types";
+import { Typography, IconButton } from "@material-tailwind/react";
 
 const year = new Date().getFullYear();
 
 export function Footer({ title, description, socials, menus, copyright }) {
   return (
-    <footer className="relative px-4 pt-8 pb-6">
+    <footer className="relative bg-gray-100 px-4 pt-8 pb-6">
       <div className="container mx-auto">
         <div className="flex flex-wrap pt-6 text-center lg:text-left">
           <div className="w-full px-4 lg:w-6/12">
@@ -32,7 +32,7 @@ export function Footer({ title, description, socials, menus, copyright }) {
               ))}
             </div>
           </div>
-          <div className="mx-auto mt-12 grid w-max grid-cols-1 gap-10 lg:mt-0 mr-10">
+          <div className="mx-auto mt-12 grid w-max grid-cols-2 gap-24 lg:mt-0">
             {menus.map(({ name, items }) => (
               <div key={name}>
                 <Typography
@@ -81,7 +81,7 @@ export function Footer({ title, description, socials, menus, copyright }) {
 Footer.defaultProps = {
   title: "RentalHub",
   description:
-    ".",
+    "Plongez dans l'effervescence urbaine du Maroc avec notre gamme d'habitations, comprenant des studios, des lofts et des appartements, nichés au cœur des quartiers les plus dynamiques.",
   socials: [
     {
       color: "gray",
@@ -98,23 +98,55 @@ Footer.defaultProps = {
       name: "instagram",
       path: "",
     },
+    {
+      color: "black",
+      name: "github",
+      path: "https://github.com/m-elhamlaoui/web-dev-khatib-maltouf-loukili-Sbihi/blob/main/src/widgets/layoutfooter.jsx",
+    },
   ],
   menus: [
     {
       name: "useful links",
       items: [
-        { name: "About Us", path: "" },
-        { name: "Blog", path: "" },
+        { name: "Sign in", path: "/sign-in" },
+        { name: "Sign up", path: "/sign-up" },
         {
-          name: "Contact Us",path: "",
+          name: "Github Repository" ,
+          path: "https://www.github.com/creativetimofficial/material-tailwind?ref=mtk",
         },
+        
+      ],
+    },
+    {
+      name: "other resources",
+      items: [
+        {
+          name: "About Us",
+          path: "",
+        },
+        {
+          name: "Blog",
+          path: "",
+        },
+        {
+          name: "Contact Us",
+          path: "",
+        },
+        
       ],
     },
   ],
   copyright: (
-    <div>
-      Copyright © {year} RentalHub.
-    </div>
+    <>
+      Copyright © {year} Maltouf - Khatib - Loukili - Sbihi{" "}
+      <a
+        href="https://www.creative-tim.com?ref=mtk"
+        target="_blank"
+        className="text-blue-gray-500 transition-colors hover:text-blue-500"
+      >
+      </a>
+      .
+    </>
   ),
 };
 
