@@ -10,6 +10,11 @@ export const routes = [
     path: "/home",
     element: <Home />,
   },
+  {
+    name: "Apartments",
+    path: "/apartments",
+    element: <Apartments />
+  },
   
   {
     name: "Contact Us",
@@ -24,11 +29,6 @@ export const routes = [
   },
   
    
-  {
-    name: "Apartments",
-    path: "/apartments",
-    element: <Apartments />
-  },
   
   {
     name: "Sign In",
