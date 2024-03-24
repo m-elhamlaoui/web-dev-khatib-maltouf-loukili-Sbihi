@@ -1,0 +1,16 @@
+.selected-date {
+    background-color: #b53131;
+    color: rgb(255, 255, 255);
+    border-radius: 9999px;
+  }
+  
+  .unselected-date {
+    background-color: #1da52d;
+    color: rgb(255, 255, 255);
+    border-radius: 9999px;
+  }
+  .before-today{
+    background-color: #888888b4;
+    color: rgb(46, 46, 46);
+    border-radius: 9999px;
+  }

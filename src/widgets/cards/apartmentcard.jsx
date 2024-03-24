@@ -14,7 +14,7 @@ const ApartmentCard = ({ apartment }) => {
   };
 
   return (
-    <a href="/profile">
+    <a href="/productPage">
       <Card>
         <CardHeader>
           <div className="relative h-56">
