@@ -66,25 +66,40 @@ public class PropertyService {
   }
   
   @Transactional
-  public Property updateProperty(Long propertyId, Property updatedProperty, List<Long> imageIds, List<Long> featureIds) {
+  public Property updateProperty(Long propertyId, Property updatedProperty, List<String> imageUrls, List<Long> featureIds) {
       Optional<Property> optionalProperty = propertyRepository.findById(propertyId);
       if (optionalProperty.isPresent()) {
           Property existingProperty = optionalProperty.get();
 
-          // Update property details
-          existingProperty.setTitle(updatedProperty.getTitle());
-          existingProperty.setAddress(updatedProperty.getAddress());
-          existingProperty.setDescription(updatedProperty.getDescription());
-          existingProperty.setRentPrice(updatedProperty.getRentPrice());
+          // Update property details if they are not null
+          if (updatedProperty.getTitle() != null) {
+              existingProperty.setTitle(updatedProperty.getTitle());
+          }
+          if (updatedProperty.getAddress() != null) {
+              existingProperty.setAddress(updatedProperty.getAddress());
+          }
+          if (updatedProperty.getDescription() != null) {
+              existingProperty.setDescription(updatedProperty.getDescription());
+          }
+          if (updatedProperty.getRentPrice() != null) {
+              existingProperty.setRentPrice(updatedProperty.getRentPrice());
+          }
 
           // Update associated images
-          if (imageIds != null && !imageIds.isEmpty()) {
-              List<Image> images = imageRepository.findAllById(imageIds);
-              existingProperty.setImages(images);
+          if (imageUrls != null) {
+              // Clear existing images before adding new ones
+              existingProperty.getImages().clear();
+              for (String imageUrl : imageUrls) {
+                  Image image = new Image();
+                  image.setImageUrl(imageUrl);
+                  image.setProperty(existingProperty);
+                  imageRepository.save(image);
+                  existingProperty.getImages().add(image);
+              }
           }
 
           // Update associated features
-          if (featureIds != null && !featureIds.isEmpty()) {
+          if (featureIds != null) {
               List<Feature> features = featureRepository.findAllById(featureIds);
               existingProperty.setFeatures(features);
           }
@@ -95,6 +110,7 @@ public class PropertyService {
           return null;
       }
   }
+  
   public void deleteProperty(Long propertyId) {
 	  propertyRepository.deleteById(propertyId);
 	}

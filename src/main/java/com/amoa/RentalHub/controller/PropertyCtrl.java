@@ -47,10 +47,10 @@ public class PropertyCtrl {
   @PutMapping("/update/{propertyId}")
   public ResponseEntity<Property> updateProperty(@PathVariable Long propertyId,
                                                   @RequestBody Property updatedProperty,
-                                                  @RequestParam(value = "imageIds", required = false) List<Long> imageIds,
+                                                  @RequestParam(value = "imageUrls", required = false) List<String> imageUrls,
                                                   @RequestParam(value = "featureIds", required = false) List<Long> featureIds) {
 
-    Property updated = propertyService.updateProperty(propertyId, updatedProperty, imageIds, featureIds);
+    Property updated = propertyService.updateProperty(propertyId, updatedProperty, imageUrls, featureIds);
     if (updated != null) {
         return ResponseEntity.ok(updated);
     } else {
